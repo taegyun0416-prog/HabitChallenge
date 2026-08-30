@@ -25,6 +25,8 @@ public class Habit {
     private int completedCount;
     private LocalDate lastCompletedDate;
 
+    private String periodType; //넣을지 말지 고민... 그냥 분기로 받아서 Day나 Week에 갈 것 같은데...
+
     enum periodType {
         //만약에 periodType에서 고려하는 값이 더 늘어난다면 enum만 찾아서 변경하면 간단하다.
         DAY, WEEK
@@ -32,9 +34,10 @@ public class Habit {
         //굳이 이걸 저장해야하나? 그러니까, 사용자로부터 DAY나 WEEK가 오면 그때 DayOfWeek의 내용으로 넘기면... 아닌가? 표시는 해야하니까...
     }
     @Builder
-    public Habit(String name, LocalDate lastCompletedDate){
+    public Habit(String name, LocalDate lastCompletedDate, String periodType){
         this.name = name;
         this.lastCompletedDate = lastCompletedDate;
+        this.periodType = periodType;
     }
 
     @ElementCollection //클래스는 아니나, 클래스 처럼 사용할 수 있도록 설명해주는? 어노테이션. 1:N관계에서 많이 사용함 (정확한 내요은 공부하기)

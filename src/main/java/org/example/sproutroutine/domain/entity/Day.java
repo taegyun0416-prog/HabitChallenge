@@ -15,4 +15,8 @@ public class Day extends Habit{
         return super.getHabit_id();
     }
     private int totalRepeat;
+    public void habitUpdate_day(int totalRepeat){
+        this.totalRepeat = totalRepeat;
+    }
+
 }
