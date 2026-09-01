@@ -34,9 +34,8 @@ public class Habit {
         //굳이 이걸 저장해야하나? 그러니까, 사용자로부터 DAY나 WEEK가 오면 그때 DayOfWeek의 내용으로 넘기면... 아닌가? 표시는 해야하니까...
     }
     @Builder
-    public Habit(String name, LocalDate lastCompletedDate, String periodType){
+    public Habit(String name, String periodType){
         this.name = name;
-        this.lastCompletedDate = lastCompletedDate;
         this.periodType = periodType;
     }
 
