@@ -1,10 +1,10 @@
 package org.example.sproutroutine.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -33,7 +33,7 @@ public class Habit {
         //DAY와 WEEK에 각각 1, 2를 넣어서 사용자로부터 오는 정보가 1인지 2인지 인식하여 분기로 넘기면 된다?
         //굳이 이걸 저장해야하나? 그러니까, 사용자로부터 DAY나 WEEK가 오면 그때 DayOfWeek의 내용으로 넘기면... 아닌가? 표시는 해야하니까...
     }
-    @Builder
+
     public Habit(String name, String periodType){
         this.name = name;
         this.periodType = periodType;
@@ -44,5 +44,5 @@ public class Habit {
     //위의 어노테이션으로 설정한 테이블을 실제로 구현하기 위한 설명. 테이블의 이름, 상속(?)하는 테이블의 아이디를 알려준다.
     @Column(name = "categories")
     //데이터베이스의 categories에 매핑한다는 뜻으로, 아래 코드에서 바로 데이터베이스의 categories칼럼에 접근하기 위해 사용함.
-    private ArrayList<String> category = new ArrayList<>(); //동적 할당을 해주는 ArrayList를 사용하여 많은 수를 저장할 수 있는 카테고리를 저장 할 수 있도록 한다.
+    private List<String> category = new ArrayList<>(); //동적 할당을 해주는 ArrayList를 사용하여 많은 수를 저장할 수 있는 카테고리를 저장 할 수 있도록 한다.
 }

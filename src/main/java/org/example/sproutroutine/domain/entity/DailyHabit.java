@@ -10,9 +10,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class DalyHabit extends Habit{
+public class DailyHabit extends Habit{
     @Builder
-    public DalyHabit(String name, String periodType, int totalRepeat){
+    public DailyHabit(String name, String periodType, int totalRepeat){
         super(name, periodType); //부모클래스에 String매개변수를 2개 받는 생성자를 불러온다. 즉, 두개를 따로 불러들이면 안됨
         this.totalRepeat = totalRepeat;
     }
@@ -24,6 +24,4 @@ public class DalyHabit extends Habit{
     public void habitUpdate_day(int totalRepeat){
         this.totalRepeat = totalRepeat;
     }
-
-
 }

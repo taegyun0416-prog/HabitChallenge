@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DalyHabitCreatRequest {
+public class DailyHabitCreatRequest {
     private String habitName;
     private String periodType;
     private String category;
