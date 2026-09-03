@@ -16,12 +16,12 @@ public class Controller {
     private final CreateWeeklyHabit createWeeklyHabit;
 
     @PostMapping("/habit/day")
-    public UUID postDailyHabit(@RequestBody DailyHabitCreatRequest request){
+    public long postDailyHabit(@RequestBody DailyHabitCreatRequest request){
         return createDailyHabit.dalyCreate(request);
     }
 
     @PostMapping("/habit/week")
-    public UUID postWeeklyHabit(@RequestBody WeeklyHabitCreatRequest request){
+    public long postWeeklyHabit(@RequestBody WeeklyHabitCreatRequest request){
         return createWeeklyHabit.weeklyCreate(request);
     }
 }

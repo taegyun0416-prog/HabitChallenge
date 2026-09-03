@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class WeeklyHabit extends Habit{
     @Override
-    public UUID getHabit_id() {
+    public long getHabit_id() {
         return super.getHabit_id();
     }
     //반복할 요일의 배열을 받고, 데이터베이스에 저장 후, 요일이 될때마다 인증을 하도록 버튼을 열어야 한다.

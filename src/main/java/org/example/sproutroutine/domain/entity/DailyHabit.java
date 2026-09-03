@@ -17,7 +17,7 @@ public class DailyHabit extends Habit{
         this.totalRepeat = totalRepeat;
     }
     @Override
-    public UUID getHabit_id() {
+    public long getHabit_id() {
         return super.getHabit_id();
     }
     private int totalRepeat;

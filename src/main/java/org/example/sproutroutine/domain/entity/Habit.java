@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID habit_id;
+    private long habit_id;
 
     //유저 기본키는 나중에 받아오기
 

@@ -15,7 +15,7 @@ public class CreateWeeklyHabit {
     private final WeekRepository weekRepository;
 
     @Transactional
-    public UUID weeklyCreate(WeeklyHabitCreatRequest request){
+    public long weeklyCreate(WeeklyHabitCreatRequest request){
         WeeklyHabit weeklyHabit = WeeklyHabit.builder()
                 .name(request.getHabitName())
                 .periodType(request.getPeriodType())

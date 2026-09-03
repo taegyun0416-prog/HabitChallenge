@@ -16,7 +16,7 @@ public class CreateDailyHabit {
     private final DayRepository dayRepository;
 
     @Transactional
-    public UUID dalyCreate(DailyHabitCreatRequest request){
+    public long dalyCreate(DailyHabitCreatRequest request){
         DailyHabit dalyHabit = DailyHabit.builder()
                 .name(request.getHabitName())
                 .periodType(request.getPeriodType())
