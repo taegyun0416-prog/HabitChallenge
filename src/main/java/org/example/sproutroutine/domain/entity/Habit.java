@@ -1,12 +1,12 @@
 package org.example.sproutroutine.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -15,30 +15,38 @@ import java.util.UUID;
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long habit_id;
-
+    private Long habit_id;
     //유저 기본키는 나중에 받아오기
-
     private String name;
     private boolean completed;
     private int streak;
     private int completedCount;
     private LocalDate lastCompletedDate;
-
     private String periodType; //넣을지 말지 고민... 그냥 분기로 받아서 Day나 Week에 갈 것 같은데...
 
-    enum periodType {
-        //만약에 periodType에서 고려하는 값이 더 늘어난다면 enum만 찾아서 변경하면 간단하다.
-        DAY, WEEK
-        //DAY와 WEEK에 각각 1, 2를 넣어서 사용자로부터 오는 정보가 1인지 2인지 인식하여 분기로 넘기면 된다?
-        //굳이 이걸 저장해야하나? 그러니까, 사용자로부터 DAY나 WEEK가 오면 그때 DayOfWeek의 내용으로 넘기면... 아닌가? 표시는 해야하니까...
-    }
-
+    //=====================================================================
+    @Builder
     public Habit(String name, String periodType){
         this.name = name;
         this.periodType = periodType;
     }
 
+    //======================================================================
+    @OneToOne(mappedBy = "habit", cascade = CascadeType.REMOVE)
+    private DailyHabit dailyHabit;
+
+    public void Daily (DailyHabit dailyHabit){
+        this.dailyHabit = dailyHabit;
+    }
+
+    @OneToOne(mappedBy = "habit", cascade = CascadeType.REMOVE)
+    private WeeklyHabit weeklyHabit;
+
+    public void Weekly (WeeklyHabit weeklyHabit){
+        this.weeklyHabit = weeklyHabit;
+    }
+
+    //======================================================================
     @ElementCollection //클래스는 아니나, 클래스 처럼 사용할 수 있도록 설명해주는? 어노테이션. 1:N관계에서 많이 사용함 (정확한 내요은 공부하기)
     @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "habit_id"))
     //위의 어노테이션으로 설정한 테이블을 실제로 구현하기 위한 설명. 테이블의 이름, 상속(?)하는 테이블의 아이디를 알려준다.
