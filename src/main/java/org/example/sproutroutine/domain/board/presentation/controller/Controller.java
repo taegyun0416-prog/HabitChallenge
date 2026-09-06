@@ -1,7 +1,9 @@
 package org.example.sproutroutine.domain.board.presentation.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.sproutroutine.domain.board.persistence.dto.request.DailyHabitCreatRequest;
+import org.example.sproutroutine.domain.board.persistence.dto.request.HabitCompleteRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.request.WeeklyHabitCreatRequest;
+import org.example.sproutroutine.domain.board.service.CompleteHabit;
 import org.example.sproutroutine.domain.board.service.CreateDailyHabit;
 import org.example.sproutroutine.domain.board.service.CreateWeeklyHabit;
 import org.example.sproutroutine.domain.board.service.DeleteHabits;
@@ -16,6 +18,7 @@ public class Controller {
     private final CreateDailyHabit createDailyHabit;
     private final CreateWeeklyHabit createWeeklyHabit;
     private final DeleteHabits deleteHabits;
+    private final CompleteHabit completeHabit;
 
     @PostMapping("/habit/day")
     public long postDailyHabit(@RequestBody DailyHabitCreatRequest request){
@@ -29,6 +32,12 @@ public class Controller {
 
     @DeleteMapping("/habit/{id}")
     public void deleteHabit(@PathVariable Long id){
+        //@PathVariabl은 경로에서 받은 Id값을 받아오는 어노테이션
         deleteHabits.Delete(id);
+    }
+
+    @PatchMapping("/habit/{id}")
+    public Long completeHabit(@PathVariable Long id, @RequestBody HabitCompleteRequest request){
+        return completeHabit.Complete(id, request);
     }
 }
