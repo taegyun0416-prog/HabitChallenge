@@ -2,7 +2,7 @@ package org.example.sproutroutine.domain.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.sproutroutine.domain.board.persistence.dto.request.HabitCompleteRequest;
-import org.example.sproutroutine.domain.board.persistence.dto.response.CompleteError;
+import org.example.sproutroutine.domain.board.service.count.WeekStreak;
 import org.example.sproutroutine.domain.entity.DailyHabit;
 import org.example.sproutroutine.domain.entity.Habit;
 import org.example.sproutroutine.domain.repository.DayRepository;
@@ -14,20 +14,27 @@ import org.springframework.stereotype.Service;
 public class CompleteHabit {
     private final HabitRepository habitRepository;
     private final DayRepository dayRepository;
+    private final WeekStreak weekStreak;
     public Long Complete(Long id, HabitCompleteRequest request){
         Habit habit = habitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("인증할 습관이 없습니다."));
         if(habit.getPeriodType().equals("WEEKLY")){
-            if(request.getCompletedCount() >= 1){
-                habit.CompleteUpdate(request.getCompletedCount(), true);
+            if(request.getCompletedCount() == 1){
+                weekStreak.CountWeek(id, habit.isCompleted(), true); //일주일 습관 인증 스트릭 계산을 위해서
+                habit.CompleteUpdateWeek(request.getCompletedCount(), true, id);
+            } else if(request.getCompletedCount() < 1){
+                weekStreak.CountWeek(id, habit.isCompleted(), false); //일주일 습관 인증 스트릭 계산을 위해서
+                habit.CompleteUpdateWeek(request.getCompletedCount(), false, id);
+            } else {
+                throw new IllegalArgumentException("인증요청이 잘못되었습니다.");
             }
         } else {
             DailyHabit dailyHabit = dayRepository.findById(id).orElseThrow(()->new IllegalArgumentException("하루기준 습관이 생성되어있지 않습니다."));
             if(request.getCompletedCount() == dailyHabit.getTotalRepeat()){
-                habit.CompleteUpdate(request.getCompletedCount(), true);
+                habit.CompleteUpdateDay(request.getCompletedCount(), true); //일주일기준 습관과 스트릭 계산이 달라 분리
             } else if(request.getCompletedCount() > dailyHabit.getTotalRepeat()){
                 throw new IllegalArgumentException("인증요청이 잘못되었습니다.");
             } else {
-                habit.CompleteUpdate(request.getCompletedCount(), false);
+                habit.CompleteUpdateDay(request.getCompletedCount(), false);
             }
         }
         return id;

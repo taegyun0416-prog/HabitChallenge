@@ -9,7 +9,6 @@ import org.example.sproutroutine.domain.board.service.CreateWeeklyHabit;
 import org.example.sproutroutine.domain.board.service.DeleteHabits;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping

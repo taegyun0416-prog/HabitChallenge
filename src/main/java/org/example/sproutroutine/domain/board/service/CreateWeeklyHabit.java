@@ -30,6 +30,7 @@ public class CreateWeeklyHabit {
                 .weekOfDay(request.getWeekOfDay())
                 .build();
         weekRepository.save(weeklyHabit);
+        weeklyHabit.CreateWeekCount(); //인증할 요일을 선택한 배열을 받아서 배열의 크기를 저장하는 메서드(스트릭을 계산할 때 사용하기 위해서)
 
         return habit.getHabit_id();
     }

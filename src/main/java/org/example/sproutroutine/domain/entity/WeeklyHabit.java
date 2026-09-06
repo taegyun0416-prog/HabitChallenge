@@ -24,6 +24,19 @@ public class WeeklyHabit{
     @ElementCollection
     private List<Integer> weekOfDay = new ArrayList<>(); //요일을 저장하기 위해서 (배열의 크기가 7을 넘을 일이 없으니 일반 배열이 좋나?)
 
+    private int CountWeek;
+
+    public void CreateWeekCount(){
+        this.CountWeek = this.weekOfDay.toArray().length;
+    }
+
+    public void AddWeekStreak(){
+        this.CountWeek++;
+    }
+    public void SubtractStreak(){
+        this.CountWeek--;
+    }
+
     @Builder
     public WeeklyHabit(Habit habit, List<Integer> weekOfDay){
         this.habit = habit;

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.sproutroutine.domain.board.service.count.WeekStreak;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -54,7 +56,19 @@ public class Habit {
     //데이터베이스의 categories에 매핑한다는 뜻으로, 아래 코드에서 바로 데이터베이스의 categories칼럼에 접근하기 위해 사용함.
     private List<String> category = new ArrayList<>(); //동적 할당을 해주는 ArrayList를 사용하여 많은 수를 저장할 수 있는 카테고리를 저장 할 수 있도록 한다.
     //=======================================================================
-    public void CompleteUpdate(int completedCount, boolean completed){
+    public void CompleteUpdateDay(int completedCount, boolean completed){
+        this.completedCount = completedCount;
+        if(this.completed){
+            if(!completed){
+                streak--;
+            }
+        }
+        if(completed){
+            streak++;
+        }
+        this.completed = completed;
+    }
+    public void CompleteUpdateWeek(int completedCount, boolean completed, Long id){
         this.completedCount = completedCount;
         this.completed = completed;
     }
