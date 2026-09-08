@@ -15,15 +15,16 @@ public class CompleteHabit {
     private final HabitRepository habitRepository;
     private final DayRepository dayRepository;
     private final WeekStreak weekStreak;
+
     public Long Complete(Long id, HabitCompleteRequest request){
         Habit habit = habitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("인증할 습관이 없습니다."));
         if(habit.getPeriodType().equals("WEEKLY")){
             if(request.getCompletedCount() == 1){
                 weekStreak.CountWeek(id, habit.isCompleted(), true); //일주일 습관 인증 스트릭 계산을 위해서
-                habit.CompleteUpdateWeek(request.getCompletedCount(), true, id);
+                habit.CompleteUpdateWeek(request.getCompletedCount(), true);
             } else if(request.getCompletedCount() < 1){
                 weekStreak.CountWeek(id, habit.isCompleted(), false); //일주일 습관 인증 스트릭 계산을 위해서
-                habit.CompleteUpdateWeek(request.getCompletedCount(), false, id);
+                habit.CompleteUpdateWeek(request.getCompletedCount(), false);
             } else {
                 throw new IllegalArgumentException("인증요청이 잘못되었습니다.");
             }
@@ -37,6 +38,7 @@ public class CompleteHabit {
                 habit.CompleteUpdateDay(request.getCompletedCount(), false);
             }
         }
+        habitRepository.save(habit); //이걸 안하면 DB에 반영이 안됨
         return id;
     }
 }

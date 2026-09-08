@@ -22,6 +22,7 @@ public class CreateWeeklyHabit {
         Habit habit = Habit.builder()
                 .name(request.getHabitName())
                 .periodType(request.getPeriodType())
+                .category(request.getCategory())
                 .build();
         habitRepository.save(habit);
 

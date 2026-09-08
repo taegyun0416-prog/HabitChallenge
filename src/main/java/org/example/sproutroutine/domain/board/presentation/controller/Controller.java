@@ -3,11 +3,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.sproutroutine.domain.board.persistence.dto.request.DailyHabitCreatRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.request.HabitCompleteRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.request.WeeklyHabitCreatRequest;
-import org.example.sproutroutine.domain.board.service.CompleteHabit;
-import org.example.sproutroutine.domain.board.service.CreateDailyHabit;
-import org.example.sproutroutine.domain.board.service.CreateWeeklyHabit;
-import org.example.sproutroutine.domain.board.service.DeleteHabits;
+import org.example.sproutroutine.domain.board.persistence.dto.response.GetAllHabitsResponse;
+import org.example.sproutroutine.domain.board.service.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -18,6 +18,7 @@ public class Controller {
     private final CreateWeeklyHabit createWeeklyHabit;
     private final DeleteHabits deleteHabits;
     private final CompleteHabit completeHabit;
+    private final ReadAllHabits readAllHabits;
 
     @PostMapping("/habit/day")
     public long postDailyHabit(@RequestBody DailyHabitCreatRequest request){
@@ -38,5 +39,10 @@ public class Controller {
     @PatchMapping("/habit/{id}")
     public Long completeHabit(@PathVariable Long id, @RequestBody HabitCompleteRequest request){
         return completeHabit.Complete(id, request);
+    }
+
+    @GetMapping("/habit")
+    public List<GetAllHabitsResponse> getAllHabit (){
+        return readAllHabits.ReadAll();
     }
 }
