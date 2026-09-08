@@ -16,14 +16,16 @@ public class DailyHabit{
     @MapsId
     private Habit habit;
 
+    private Integer totalRepeat;
+
     @Builder
     public DailyHabit(Habit habit, int totalRepeat){
         this.habit = habit;
         this.totalRepeat = totalRepeat;
     }
 
-    private int totalRepeat;
-    public void habitUpdate_day(int totalRepeat){
+
+    public void HabitUpdate_day(Integer totalRepeat){
         this.totalRepeat = totalRepeat;
     }
 }

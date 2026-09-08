@@ -1,4 +1,4 @@
-package org.example.sproutroutine.domain.board.persistence.dto.response;
+package org.example.sproutroutine.domain.board.persistence.dto.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @RestControllerAdvice
-public class CompleteError {
+public class WrongRequestError {
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

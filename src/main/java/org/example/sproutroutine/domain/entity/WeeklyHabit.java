@@ -24,18 +24,34 @@ public class WeeklyHabit{
     @ElementCollection
     private List<Integer> weekOfDay = new ArrayList<>(); //요일을 저장하기 위해서 (배열의 크기가 7을 넘을 일이 없으니 일반 배열이 좋나?)
 
-    private int CountWeek;
+    @ElementCollection
+    private List<Integer> nextWeekOfDay = new ArrayList<>();
+    boolean changeWeekOfDay;
+    //====================================================
 
+    private int standardWeek;
     public void CreateWeekCount(){
-        this.CountWeek = this.weekOfDay.toArray().length;
+        this.standardWeek = this.weekOfDay.toArray().length;
     }
 
+    //====================================================
+
+    private int countWeek;
     public void AddWeekStreak(){
-        this.CountWeek++;
+        this.countWeek++;
     }
     public void SubtractStreak(){
-        this.CountWeek--;
+        this.countWeek--;
     }
+
+    //====================================================
+
+    public void HabitUpdate_Week(List<Integer> weekOfDay, boolean changeWeekOfDay){
+        this.nextWeekOfDay = weekOfDay; //여기서 1차적으로 저장한 이후, 다음주 월요일 00시가 되었을때 weekOfDay에 저장
+        this.changeWeekOfDay = changeWeekOfDay;
+    }
+
+    //====================================================
 
     @Builder
     public WeeklyHabit(Habit habit, List<Integer> weekOfDay){

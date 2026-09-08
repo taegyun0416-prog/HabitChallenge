@@ -22,15 +22,17 @@ public class Habit {
     private int streak;
     private int completedCount;
     private LocalDate lastCompletedDate;
-    private String periodType; //넣을지 말지 고민... 그냥 분기로 받아서 Day나 Week에 갈 것 같은데...
-    //=====================================================================
+    private String periodType;
+
+    //===================================================================== 카테고리
     @ElementCollection //클래스는 아니나, 클래스 처럼 사용할 수 있도록 설명해주는? 어노테이션. 1:N관계에서 많이 사용함 (정확한 내요은 공부하기)
     @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "habitId"))
     //위의 어노테이션으로 설정한 테이블을 실제로 구현하기 위한 설명. 테이블의 이름, 상속(?)하는 테이블의 아이디를 알려준다.
     @Column(name = "categories")
     //데이터베이스의 categories에 매핑한다는 뜻으로, 아래 코드에서 바로 데이터베이스의 categories칼럼에 접근하기 위해 사용함.
     private List<String> category = new ArrayList<>(); //동적 할당을 해주는 ArrayList를 사용하여 많은 수를 저장할 수 있는 카테고리를 저장 할 수 있도록 한다.
-    //=====================================================================
+
+    //===================================================================== 생성자
     @Builder
     public Habit(String name, String periodType, List<String> category){
         this.name = name;
@@ -38,7 +40,7 @@ public class Habit {
         this.category = category;
     }
 
-    //======================================================================
+    //====================================================================== Daily와 Weekly엔티티와의 관계를 이어주기 위한 코드
     @OneToOne(mappedBy = "habit", cascade = CascadeType.REMOVE)
     private DailyHabit dailyHabit;
 
@@ -53,7 +55,7 @@ public class Habit {
         this.weeklyHabit = weeklyHabit;
     }
 
-    //=======================================================================
+    //======================================================================= 습관 인증후 인증 기록 저장을 위한 코드들
     public void CompleteUpdateDay(int completedCount, boolean completed){
         this.completedCount = completedCount;
         if(this.completed){
@@ -69,5 +71,13 @@ public class Habit {
     public void CompleteUpdateWeek(int completedCount, boolean completed){
         this.completedCount = completedCount;
         this.completed = completed;
+    }
+
+    //======================================================================= 습관 업데이트를 위한 코드
+    public void UpdateHabits_name(String name){
+        this.name = name;
+    }
+    public void UpdateHabits_category(List<String> category){
+        this.category = category;
     }
 }
