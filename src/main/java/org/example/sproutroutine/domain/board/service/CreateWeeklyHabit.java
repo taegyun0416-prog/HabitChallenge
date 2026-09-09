@@ -2,6 +2,7 @@ package org.example.sproutroutine.domain.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.sproutroutine.domain.board.persistence.dto.request.WeeklyHabitCreatRequest;
+import org.example.sproutroutine.domain.board.persistence.dto.status.exceptions.CreateException;
 import org.example.sproutroutine.domain.entity.Habit;
 import org.example.sproutroutine.domain.entity.WeeklyHabit;
 import org.example.sproutroutine.domain.repository.HabitRepository;
@@ -24,6 +25,18 @@ public class CreateWeeklyHabit {
                 .periodType(request.getPeriodType())
                 .category(request.getCategory())
                 .build();
+        if(habit.getName().isBlank()){
+            throw new CreateException("습관정보가 누락되었습니다."); //DailyHabit에서도 반복되니 따로 빼서 사용하는게 좋나...?
+        }
+        if (habit.getCategory().isEmpty()){
+            throw new CreateException("습관정보가 누락되었습니다.");
+        } else {
+            for(int i=0; i< habit.getCategory().size(); i++){
+                if(habit.getCategory().get(i).isBlank()){
+                    throw new CreateException("습관정보가 누락되었습니다.");
+                }
+            }
+        }
         habitRepository.save(habit);
 
         WeeklyHabit weeklyHabit = WeeklyHabit.builder()

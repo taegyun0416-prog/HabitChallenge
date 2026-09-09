@@ -1,5 +1,6 @@
-package org.example.sproutroutine.domain.board.persistence.dto.error;
+package org.example.sproutroutine.domain.board.persistence.dto.status;
 
+import org.example.sproutroutine.domain.board.persistence.dto.status.exceptions.CreateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,4 +15,6 @@ public class WrongRequestError {
     public String Error(IllegalArgumentException e){
         return e.getMessage();
     }
+
+
 }

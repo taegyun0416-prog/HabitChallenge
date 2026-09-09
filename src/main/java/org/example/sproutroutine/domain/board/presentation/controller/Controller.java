@@ -5,16 +5,18 @@ import org.example.sproutroutine.domain.board.persistence.dto.request.HabitCompl
 import org.example.sproutroutine.domain.board.persistence.dto.request.HabitsPatchRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.request.WeeklyHabitCreatRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.response.GetAllHabitsResponse;
+import org.example.sproutroutine.domain.board.persistence.dto.status.StatusCreateResponse;
 import org.example.sproutroutine.domain.board.service.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 
 
 @RestController
 @RequestMapping
-@RequiredArgsConstructor
+@RequiredArgsConstructor //필수 인자를 가진 생성자를 자동으로 생성 (이게 있기 때문에 밑에 서비스 클래스들을 불러올 수 있는 것.
 public class Controller {
     private final CreateDailyHabit createDailyHabit;
     private final CreateWeeklyHabit createWeeklyHabit;
@@ -24,13 +26,21 @@ public class Controller {
     private final HabitsPatch habitsPatch;
 
     @PostMapping("/habit/day")
-    public long postDailyHabit(@RequestBody DailyHabitCreatRequest request){
-        return createDailyHabit.dalyCreate(request);
+    public ResponseEntity<StatusCreateResponse> postDailyHabit(@RequestBody DailyHabitCreatRequest request){
+        StatusCreateResponse statusCreateResponse = new StatusCreateResponse(
+                "OK",
+                "습관이 성공적으로 생성되었습니다.",
+                createDailyHabit.dalyCreate(request));
+        return new ResponseEntity<>(statusCreateResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/habit/week")
-    public long postWeeklyHabit(@RequestBody WeeklyHabitCreatRequest request){
-        return createWeeklyHabit.weeklyCreate(request);
+    public ResponseEntity<StatusCreateResponse> postWeeklyHabit(@RequestBody WeeklyHabitCreatRequest request){
+        StatusCreateResponse statusCreateResponse = new StatusCreateResponse(
+                "OK",
+                "습관이 성공적으로 생성되었습니다.",
+                createWeeklyHabit.weeklyCreate(request));
+        return new ResponseEntity<>(statusCreateResponse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/habit/{id}")
@@ -50,8 +60,7 @@ public class Controller {
     }
 
     @PatchMapping("/habit/update/{id}")
-    public void patchHabits (@PathVariable Long id, @RequestBody HabitsPatchRequest request, SessionStatus sessionStatus){
+    public void patchHabits (@PathVariable Long id, @RequestBody HabitsPatchRequest request){
         habitsPatch.Patch(id, request);
-
     }
 }
