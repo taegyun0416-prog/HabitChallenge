@@ -2,6 +2,8 @@ package org.example.sproutroutine.domain.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.sproutroutine.domain.board.persistence.dto.request.HabitsPatchRequest;
+import org.example.sproutroutine.domain.board.persistence.dto.status.exceptions.BadRequestException;
+import org.example.sproutroutine.domain.board.persistence.dto.status.exceptions.NotThingException;
 import org.example.sproutroutine.domain.entity.DailyHabit;
 import org.example.sproutroutine.domain.entity.Habit;
 import org.example.sproutroutine.domain.entity.WeeklyHabit;
@@ -17,8 +19,8 @@ public class HabitsPatch {
     private final DayRepository dayRepository;
     private final WeekRepository weekRepository;
 
-    public void Patch(Long id, HabitsPatchRequest request){
-        Habit habit = habitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("수정할 습관이 없습니다."));
+    public String Patch(Long id, HabitsPatchRequest request){
+        Habit habit = habitRepository.findById(id).orElseThrow(() -> new NotThingException("수정할 습관이 없습니다."));
 
 
         //============================================================== 습관 카테고리 수정 (Habit)
@@ -32,7 +34,7 @@ public class HabitsPatch {
 
         if(request.getName() != null){
             if(request.getName().isBlank()){
-                throw new IllegalArgumentException("습관의 이름을 비워둘 수 없습니다.");
+                throw new BadRequestException("습관의 정보가 누락되었습니다.");
             }
             habit.UpdateHabits_name(request.getName());
             habitRepository.save(habit);
@@ -41,9 +43,9 @@ public class HabitsPatch {
         //=============================================================== 습관 총 달성 횟수 수정 (Daily)
 
         if(request.getTotalRepeat() != null){ //int형 변수이기 때문에 isEmpty사용 불가
-            DailyHabit dailyHabit = dayRepository.findById(id).orElseThrow(()->new IllegalArgumentException("수정할 습관이 없습니다.(Daily)"));
+            DailyHabit dailyHabit = dayRepository.findById(id).orElseThrow(()->new NotThingException("수정할 습관이 없습니다.(Daily)"));
             if(request.getTotalRepeat() == 0){
-                throw new IllegalArgumentException("반복 횟수를 0으로 설정할 수 없습니다.");
+                throw new BadRequestException("습관의 정보가 누락되었습니다.");
             }
             habit.CompleteUpdateDay(0, habit.isCompleted());
             //습관을 완료한 경우라면 습관 인증 페이지가 열리지 않으므로 다음날부터 수정된 횟수로 할 수 있게 하기 위해 완료한 습관이라면 true가 들어가게 되고,
@@ -56,11 +58,12 @@ public class HabitsPatch {
         //=============================================================== 습관 달성 요일 수정 (Weekly)
 
         if(request.getWeekOfDay() != null){
-            WeeklyHabit weeklyHabit = weekRepository.findById(id).orElseThrow(()->new IllegalArgumentException("수정할 습관이 업습니다.(Weekly)"));
+            WeeklyHabit weeklyHabit = weekRepository.findById(id).orElseThrow(()->new NotThingException("수정할 습관이 업습니다.(Weekly)"));
             weeklyHabit.HabitUpdate_Week(request.getWeekOfDay(), true); //여기서 true가 된다면, 월요일 0시가 되었을 때 바꾼다.
             weekRepository.save(weeklyHabit);
         } else if(habit.getPeriodType().equals("WEEKLY")){
-            throw new IllegalArgumentException("반복 횟수를 0으로 설정할 수 없습니다.");
+            throw new BadRequestException("습관의 정보가 누락되었습니다.");
         }
+        return "습관이 성공적으로 수정되었습니다.";
     }
 }

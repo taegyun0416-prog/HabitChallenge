@@ -5,7 +5,7 @@ import org.example.sproutroutine.domain.board.persistence.dto.request.HabitCompl
 import org.example.sproutroutine.domain.board.persistence.dto.request.HabitsPatchRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.request.WeeklyHabitCreatRequest;
 import org.example.sproutroutine.domain.board.persistence.dto.response.GetAllHabitsResponse;
-import org.example.sproutroutine.domain.board.persistence.dto.status.StatusCreateResponse;
+import org.example.sproutroutine.domain.board.persistence.dto.status.StatusResponse;
 import org.example.sproutroutine.domain.board.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,32 +26,34 @@ public class Controller {
     private final HabitsPatch habitsPatch;
 
     @PostMapping("/habit/day")
-    public ResponseEntity<StatusCreateResponse> postDailyHabit(@RequestBody DailyHabitCreatRequest request){
-        StatusCreateResponse statusCreateResponse = new StatusCreateResponse(
+    public ResponseEntity<StatusResponse> postDailyHabit(@RequestBody DailyHabitCreatRequest request){
+        StatusResponse statusResponse = new StatusResponse(
                 "OK",
-                "습관이 성공적으로 생성되었습니다.",
                 createDailyHabit.dalyCreate(request));
-        return new ResponseEntity<>(statusCreateResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(statusResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/habit/week")
-    public ResponseEntity<StatusCreateResponse> postWeeklyHabit(@RequestBody WeeklyHabitCreatRequest request){
-        StatusCreateResponse statusCreateResponse = new StatusCreateResponse(
+    public ResponseEntity<StatusResponse> postWeeklyHabit(@RequestBody WeeklyHabitCreatRequest request){
+        StatusResponse statusResponse = new StatusResponse(
                 "OK",
-                "습관이 성공적으로 생성되었습니다.",
                 createWeeklyHabit.weeklyCreate(request));
-        return new ResponseEntity<>(statusCreateResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(statusResponse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/habit/{id}")
-    public void deleteHabit(@PathVariable Long id){
+    public ResponseEntity<StatusResponse> deleteHabit(@PathVariable Long id){
         //@PathVariabl은 경로에서 받은 Id값을 받아오는 어노테이션
-        deleteHabits.Delete(id);
+        StatusResponse statusResponse = new StatusResponse("OK", deleteHabits.Delete(id));
+        return new ResponseEntity<>(statusResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/habit/{id}")
-    public Long completeHabit(@PathVariable Long id, @RequestBody HabitCompleteRequest request){
-        return completeHabit.Complete(id, request);
+    public ResponseEntity<StatusResponse> completeHabit(@PathVariable Long id, @RequestBody HabitCompleteRequest request){
+        StatusResponse statusResponse = new StatusResponse(
+                "OK",
+                completeHabit.Complete(id, request));
+        return new ResponseEntity<>(statusResponse, HttpStatus.OK);
     }
 
     @GetMapping("/habit")
@@ -60,7 +62,10 @@ public class Controller {
     }
 
     @PatchMapping("/habit/update/{id}")
-    public void patchHabits (@PathVariable Long id, @RequestBody HabitsPatchRequest request){
-        habitsPatch.Patch(id, request);
+    public ResponseEntity<StatusResponse> patchHabits (@PathVariable Long id, @RequestBody HabitsPatchRequest request){
+        StatusResponse statusResponse = new StatusResponse(
+                "OK",
+                habitsPatch.Patch(id, request));
+        return new ResponseEntity<>(statusResponse, HttpStatus.OK);
     }
 }

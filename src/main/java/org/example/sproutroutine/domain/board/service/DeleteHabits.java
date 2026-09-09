@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 public class DeleteHabits {
     private final HabitRepository habitRepository;
 
-    public void Delete (Long id){
+    public String Delete (Long id){
         habitRepository.deleteById(id);
+        return "습관이 성공적으로 삭제되었습니다.";
     }
 }
