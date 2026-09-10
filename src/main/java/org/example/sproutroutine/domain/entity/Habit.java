@@ -20,8 +20,8 @@ public class Habit {
     private String name;
     private boolean completed;
     private int streak;
-    private int completedCount;
-    private LocalDate lastCompletedDate;
+    private int completedCount; //여러번 인증해야하는 경우
+    private LocalDate lastCompletedDate; //습관 마지막 인증 날짜 받아오기.
     private String periodType;
 
     //===================================================================== 카테고리

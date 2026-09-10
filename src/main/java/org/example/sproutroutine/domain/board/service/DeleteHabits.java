@@ -11,6 +11,6 @@ public class DeleteHabits {
 
     public String Delete (Long id){
         habitRepository.deleteById(id);
-        return "습관이 성공적으로 삭제되었습니다.";
+        return "습관이 성공적으로 삭제되었습니다."; //컨트롤러에서 반환할때 메시지를 출력하기 위해서
     }
 }

@@ -42,7 +42,7 @@ public class HabitsPatch {
 
         //=============================================================== 습관 총 달성 횟수 수정 (Daily)
 
-        if(request.getTotalRepeat() != null){ //int형 변수이기 때문에 isEmpty사용 불가
+        if(request.getTotalRepeat() != null){
             DailyHabit dailyHabit = dayRepository.findById(id).orElseThrow(()->new NotThingException("수정할 습관이 없습니다.(Daily)"));
             if(request.getTotalRepeat() == 0){
                 throw new BadRequestException("습관의 정보가 누락되었습니다.");

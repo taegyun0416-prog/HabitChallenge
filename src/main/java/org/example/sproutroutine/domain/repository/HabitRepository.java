@@ -13,5 +13,5 @@ public interface HabitRepository extends JpaRepository<Habit, Long> {
     @Override
     @EntityGraph(attributePaths = {"dailyHabit", "weeklyHabit", "category"})
     @NullMarked
-    List<Habit> findAll();
+    List<Habit> findAll(); //findAll을 HabitRepository로만 접근해서 전부 가져오기 위해
 }

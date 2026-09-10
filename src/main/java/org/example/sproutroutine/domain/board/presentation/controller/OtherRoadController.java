@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class OtherRoadController {
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler(BadRequestException.class) //잘못된 요청이 들어왔을때
     public ResponseEntity<StatusResponse> RequestError(BadRequestException e){
         StatusResponse statusResponse = new StatusResponse("Bad Request", e.getMessage());
         return new ResponseEntity<>(statusResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NotThingException.class)
+    @ExceptionHandler(NotThingException.class) //id로 객체를 찾을 수 없을때
     public ResponseEntity<StatusResponse> Anything(NotThingException e){
         StatusResponse statusResponse = new StatusResponse("Internal Server Error", e.getMessage());
         return new ResponseEntity<>(statusResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(NoContentsException.class)
+    @ExceptionHandler(NoContentsException.class) //전체 습관을 조회할때만 사용됨
     public ResponseEntity<StatusResponse> NoContent(NotThingException e){
         StatusResponse statusResponse = new StatusResponse("No Content", e.getMessage());
         return new ResponseEntity<>(statusResponse, HttpStatus.NO_CONTENT);

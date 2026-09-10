@@ -59,7 +59,7 @@ public class Controller {
     @GetMapping("/habit")
     public List<GetAllHabitsResponse> getAllHabit (){
         return readAllHabits.ReadAll();
-    }
+    } //여기에는 상태코드와함께 반환할 메시지가 필요없어서
 
     @PatchMapping("/habit/update/{id}")
     public ResponseEntity<StatusResponse> patchHabits (@PathVariable Long id, @RequestBody HabitsPatchRequest request){

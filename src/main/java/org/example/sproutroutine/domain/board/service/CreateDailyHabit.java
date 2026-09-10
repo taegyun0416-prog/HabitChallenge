@@ -26,7 +26,7 @@ public class CreateDailyHabit {
                 throw new BadRequestException("습관정보가 누락되었습니다.");
             }
         }
-        //========================================
+        //========================================예외처리
         if (request.getTotalRepeat() == 0){
             throw new BadRequestException("습관정보가 누락되었습니다.");
         }

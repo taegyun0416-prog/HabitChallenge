@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReadAllHabits {
     private final HabitRepository habitRepository;
-    public List<GetAllHabitsResponse> ReadAll(){
+    public List<GetAllHabitsResponse> ReadAll(){ //전체 습관 불러오는 Response로 반환 형식 선언
         List<Habit> allHabitsResponseList = habitRepository.findAll();
         if (allHabitsResponseList.isEmpty()){
-            throw new NoContentsException("조회할 습관이 없습니다.");
+            throw new NoContentsException("조회할 습관이 없습니다."); //사용자 지정 예외
         }
         return allHabitsResponseList.stream().map(GetAllHabitsResponse::new).toList();
     }

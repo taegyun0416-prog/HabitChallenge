@@ -29,7 +29,7 @@ public class WeeklyHabit{
     boolean changeWeekOfDay;
     //====================================================
 
-    private int standardWeek;
+    private int standardWeek; //일주일에 몇번의 인증요일을 설정했는지 저장
     public void CreateWeekCount(){
         this.standardWeek = this.weekOfDay.toArray().length;
     }
@@ -43,12 +43,13 @@ public class WeeklyHabit{
     public void SubtractStreak(){
         this.countWeek--;
     }
+    //인증요일에 인증할때마다 증가 감소를 하여 일요일에 standardWeek와 일치하는지 확인하여 스트릭 증가(or초기화)
 
     //====================================================
 
     public void HabitUpdate_Week(List<Integer> weekOfDay, boolean changeWeekOfDay){
-        this.nextWeekOfDay = weekOfDay; //여기서 1차적으로 저장한 이후, 다음주 월요일 00시가 되었을때 weekOfDay에 저장
-        this.changeWeekOfDay = changeWeekOfDay;
+        this.nextWeekOfDay = weekOfDay; //여기에 변경사항이 1차적으로 저장한 이후, 다음주 월요일 00시가 되었을때 weekOfDay에 저장
+        this.changeWeekOfDay = changeWeekOfDay; //변경사항이 있다면 참으로 바뀜
     }
 
     //====================================================

@@ -19,13 +19,15 @@ public class CreateWeeklyHabit {
     @Transactional
     public String weeklyCreate(WeeklyHabitCreatRequest request){
         if(request.getHabitName().isBlank()){
-            throw new BadRequestException("습관정보가 누락되었습니다."); //DailyHabit에서도 반복되니 따로 빼서 사용하는게 좋나...?
+            throw new BadRequestException("습관정보가 누락되었습니다.");
         }
         for(int i=0; i< request.getCategory().size(); i++){
             if(request.getCategory().get(i).isBlank()){
                 throw new BadRequestException("습관정보가 누락되었습니다.");
             }
         }
+        //=================================위에는 예외처리
+        //=================================밑에는 습관 생성코드
         Habit habit = Habit.builder()
                 .name(request.getHabitName())
                 .periodType(request.getPeriodType())
