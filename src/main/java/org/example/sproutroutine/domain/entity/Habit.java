@@ -21,8 +21,9 @@ public class Habit {
     private boolean completed;
     private int streak;
     private int completedCount; //여러번 인증해야하는 경우
-    private LocalDate lastCompletedDate; //습관 마지막 인증 날짜 받아오기.
     private String periodType;
+    //마지막 습관 인증날짜 저장하는 필드 삭제.
+    //전체 스트릭을 판단하기 위한 필드였는데 0시가 되었을때 모든 습관이 인증 되었는지만 확인하면 되므로.
 
     //===================================================================== 카테고리
     @ElementCollection //클래스는 아니나, 클래스 처럼 사용할 수 있도록 설명해주는? 어노테이션. 1:N관계에서 많이 사용함 (정확한 내요은 공부하기)
